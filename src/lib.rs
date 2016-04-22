@@ -112,10 +112,12 @@ pub use error::Result;
 pub use reader::{OsmPbfReader, primitive_block_from_blob};
 
 /// Generated from protobuf.
-#[allow(non_snake_case, missing_docs)]pub mod fileformat;
+#[allow(non_snake_case, missing_docs)]
+mod_path! fileformat (concat!(env!("OUT_DIR"), "/fileformat.rs"))
 
 /// Generated from protobuf.
-#[allow(missing_docs)]pub mod osmformat;
+#[allow(missing_docs)]
+mod_path! osmformat (concat!(env!("OUT_DIR"), "/osmformat.rs"))
 
 pub mod error;
 pub mod objects;
