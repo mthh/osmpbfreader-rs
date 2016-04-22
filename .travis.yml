@@ -4,6 +4,10 @@ rust:
 - nightly
 - beta
 - stable
+addons:
+  apt:
+    packages:
+    - libprotoc-dev
 script:
 - cargo build --verbose
 - cargo test --verbose
