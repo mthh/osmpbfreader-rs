@@ -101,6 +101,8 @@
 //! improve the reading speed of the PBF file.
 
 // #![deny(missing_docs)]
+#![feature(plugin)]
+#![plugin(mod_path)]
 
 extern crate protobuf;
 extern crate flate2;
@@ -113,11 +115,11 @@ pub use reader::{OsmPbfReader, primitive_block_from_blob};
 
 /// Generated from protobuf.
 #[allow(non_snake_case, missing_docs)]
-mod_path! fileformat (concat!(env!("OUT_DIR"), "/fileformat.rs"))
+mod_path! fileformat (concat!(env!("OUT_DIR"), "/fileformat.rs"));
 
 /// Generated from protobuf.
 #[allow(missing_docs)]
-mod_path! osmformat (concat!(env!("OUT_DIR"), "/osmformat.rs"))
+mod_path! osmformat (concat!(env!("OUT_DIR"), "/osmformat.rs"));
 
 pub mod error;
 pub mod objects;
