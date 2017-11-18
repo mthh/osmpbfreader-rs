@@ -1,0 +1,1 @@
+initSidebarItems({"struct":[["FlatMap","An iterator that maps each element to an iterator, and yields the elements of the produced iterators."],["Map","An iterator that maps the values of `iter` with `f`."]],"trait":[["ParMap","This trait extends `std::iter::Iterator` with parallel iterator adaptors.  Just `use` it to get access to the methods:"]]});

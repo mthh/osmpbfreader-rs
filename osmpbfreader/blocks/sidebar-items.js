@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["iter",""],["nodes",""],["relations",""],["ways",""]],"struct":[["Nodes","Iterator on the `Node` of a `PrimitiveBlock`."],["OsmObjs","Iterator on the `OsmObj` of a `PrimitiveBlock`."],["Relations","Iterator on the `Relation` of a `PrimitiveBlock`."],["Ways","Iterator on the `Way` of a `PrimitiveBlock`."]]});

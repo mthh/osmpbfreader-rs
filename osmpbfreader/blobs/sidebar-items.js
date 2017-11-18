@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["result_blob_into_iter","Transforms a `Result<blob>` into a `Iterator<Item = Result<OsmObj>>`."]],"struct":[["OsmObjs","An iterator on `Result<OsmObj>`."]]});

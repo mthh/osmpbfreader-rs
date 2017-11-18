@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="rustdoc">
+    <meta name="description" content="API documentation for the Rust `RentRef` struct in crate `rental`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, RentRef">
+
+    <title>rental::examples::RentRef - Rust</title>
+
+    <link rel="stylesheet" type="text/css" href="../../normalize.css">
+    <link rel="stylesheet" type="text/css" href="../../rustdoc.css">
+    <link rel="stylesheet" type="text/css" href="../../main.css">
+    
+
+    
+    
+</head>
+<body class="rustdoc struct">
+    <!--[if lte IE 8]>
+    <div class="warning">
+        This old browser is unsupported and will most likely display funky
+        things.
+    </div>
+    <![endif]-->
+
+    
+
+    <nav class="sidebar">
+        
+        <p class='location'>Struct RentRef</p><div class="block items"><ul><li><a href="#methods">Methods</a></li><li><a href="#implementations">Trait Implementations</a></li></ul></div><p class='location'><a href='../index.html'>rental</a>::<wbr><a href='index.html'>examples</a></p><script>window.sidebarCurrent = {name: 'RentRef', ty: 'struct', relpath: ''};</script><script defer src="sidebar-items.js"></script>
+    </nav>
+
+    <nav class="sub">
+        <form class="search-form js-only">
+            <div class="search-container">
+                <input class="search-input" name="search"
+                       autocomplete="off"
+                       placeholder="Click or press ‘S’ to search, ‘?’ for more options…"
+                       type="search">
+            </div>
+        </form>
+    </nav>
+
+    <section id='main' class="content">
+<h1 class='fqn'><span class='in-band'>Struct <a href='../index.html'>rental</a>::<wbr><a href='index.html'>examples</a>::<wbr><a class="struct" href=''>RentRef</a></span><span class='out-of-band'><span id='render-detail'>
+                   <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
+                       [<span class='inner'>&#x2212;</span>]
+                   </a>
+               </span><a class='srclink' href='../../src/rental/lib.rs.html#229' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct RentRef&lt;T:&nbsp;'static, U:&nbsp;'static&gt; { /* fields omitted */ }</pre><div class='docblock'><p>A simple example that can store an owner and a shared reference in the same struct.</p>
+
+<pre class="rust rust-example-rendered">
+<span class="kw">let</span> <span class="ident">r</span> <span class="op">=</span> <span class="ident">RentRef</span>::<span class="ident">new</span>(<span class="ident">Box</span>::<span class="ident">new</span>(<span class="number">5</span>), <span class="op">|</span><span class="ident">i</span><span class="op">|</span> <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">i</span>);
+<span class="macro">assert_eq</span><span class="macro">!</span>(<span class="kw-2">*</span><span class="ident">r</span>, <span class="ident">r</span>.<span class="ident">rent</span>(<span class="op">|</span><span class="ident">iref</span><span class="op">|</span> <span class="kw-2">*</span><span class="kw-2">*</span><span class="ident">iref</span>));</pre>
+</div>
+                    <h2 id='methods' class='small-section-header'>
+                      Methods<a href='#methods' class='anchor'></a>
+                    </h2>
+                <h3 id='impl' class='impl'><span class='in-band'><code>impl&lt;T:&nbsp;'static, U:&nbsp;'static&gt; <a class="struct" href="../../rental/examples/struct.RentRef.html" title="struct rental::examples::RentRef">RentRef</a>&lt;T, U&gt;</code><a href='#impl' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/rental/lib.rs.html#229' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.new' class="method"><span id='new.v' class='invisible'><code>fn <a href='#method.new' class='fnname'>new</a>&lt;__Fsuffix&gt;(head: <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/boxed/struct.Box.html" title="struct alloc::boxed::Box">Box</a>&lt;T&gt;, suffix: __Fsuffix) -&gt; Self <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;__Fsuffix: for&lt;'head&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/function/trait.FnOnce.html" title="trait core::ops::function::FnOnce">FnOnce</a>(<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;'head </a>T) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;'head </a>U,&nbsp;</span></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/rental/lib.rs.html#229' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Create a new instance of the rental struct.</p>
+
+<p>The first argument provided is the head, followed by a series of closures, one for each tail field. Each of these closures will receive, as its arguments, a borrow of the previous field, followed by borrows of the remaining prefix fields if the struct is a shared rental. If the struct is a mutable rental, only the immediately preceding field is passed.</p>
+</div><h4 id='method.try_new' class="method"><span id='try_new.v' class='invisible'><code>fn <a href='#method.try_new' class='fnname'>try_new</a>&lt;__Fsuffix, __E&gt;(<br>&nbsp;&nbsp;&nbsp;&nbsp;head: <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/boxed/struct.Box.html" title="struct alloc::boxed::Box">Box</a>&lt;T&gt;, <br>&nbsp;&nbsp;&nbsp;&nbsp;suffix: __Fsuffix<br>) -&gt; <a class="type" href="../../rental/type.TryNewResult.html" title="type rental::TryNewResult">TryNewResult</a>&lt;Self, __E, <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/boxed/struct.Box.html" title="struct alloc::boxed::Box">Box</a>&lt;T&gt;&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;__Fsuffix: for&lt;'head&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/function/trait.FnOnce.html" title="trait core::ops::function::FnOnce">FnOnce</a>(<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;'head </a>T) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;'head </a>U, __E&gt;,&nbsp;</span></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/rental/lib.rs.html#229' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Attempt to create a new instance of the rental struct.</p>
+
+<p>As <code>new</code>, but each closure returns a <code>Result</code>. If the result is an error, execution is short-circuited and the error is returned to you, along with the original head value.</p>
+</div><h4 id='method.borrow' class="method"><span id='borrow.v' class='invisible'><code>unsafe fn <a href='#method.borrow' class='fnname'>borrow</a>&lt;'__a&gt;(&amp;'__a self) -&gt; Self::Borrow</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/rental/lib.rs.html#229' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Return direct shared borrows of the fields of the struct.</p>
+
+<p>This is unsafe because the erased lifetimes are exposed. Use this only if absolutely necessary and be very mindful of what the true lifetimes are.</p>
+</div><h4 id='method.borrow_mut' class="method"><span id='borrow_mut.v' class='invisible'><code>unsafe fn <a href='#method.borrow_mut' class='fnname'>borrow_mut</a>&lt;'__a&gt;(&amp;'__a mut self) -&gt; Self::BorrowMut</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/rental/lib.rs.html#229' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Return a direct mutable borrow of the suffix of the struct.</p>
+
+<p>This is unsafe because the erased lifetimes are exposed. Use this only if absolutely necessary and be very mindful of what the true lifetimes are.</p>
+</div><h4 id='method.rent' class="method"><span id='rent.v' class='invisible'><code>fn <a href='#method.rent' class='fnname'>rent</a>&lt;__F, __R&gt;(&amp;self, f: __F) -&gt; __R <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;__F: for&lt;'suffix, 'head&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/function/trait.FnOnce.html" title="trait core::ops::function::FnOnce">FnOnce</a>(&amp;'suffix <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;'head </a>U) -&gt; __R,<br>&nbsp;&nbsp;&nbsp;&nbsp;__R: ,&nbsp;</span></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/rental/lib.rs.html#229' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Execute a closure on the shared suffix of the struct.</p>
+
+<p>The closure may return any value not bounded by one of the special rentail lifetimes of the struct.</p>
+</div><h4 id='method.rent_mut' class="method"><span id='rent_mut.v' class='invisible'><code>fn <a href='#method.rent_mut' class='fnname'>rent_mut</a>&lt;__F, __R&gt;(&amp;mut self, f: __F) -&gt; __R <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;__F: for&lt;'suffix, 'head&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/function/trait.FnOnce.html" title="trait core::ops::function::FnOnce">FnOnce</a>(&amp;'suffix mut <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;'head </a>U) -&gt; __R,<br>&nbsp;&nbsp;&nbsp;&nbsp;__R: ,&nbsp;</span></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/rental/lib.rs.html#229' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Execute a closure on the mutable suffix of the struct.</p>
+
+<p>The closure may return any value not bounded by one of the special rentail lifetimes of the struct.</p>
+</div><h4 id='method.ref_rent' class="method"><span id='ref_rent.v' class='invisible'><code>fn <a href='#method.ref_rent' class='fnname'>ref_rent</a>&lt;__F, __R:&nbsp;?<a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>&gt;(&amp;self, f: __F) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;</a>__R <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;__F: for&lt;'suffix, 'head&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/function/trait.FnOnce.html" title="trait core::ops::function::FnOnce">FnOnce</a>(&amp;'suffix <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;'head </a>U) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;'suffix </a>__R,<br>&nbsp;&nbsp;&nbsp;&nbsp;__R: 'static,&nbsp;</span></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/rental/lib.rs.html#229' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Return a shared reference from the shared suffix of the struct.</p>
+
+<p>This is a subtle variation of <code>rent</code> where it is legal to return a reference bounded by a rental lifetime, because that lifetime is reborrowed away before it is returned to you.</p>
+</div><h4 id='method.maybe_ref_rent' class="method"><span id='maybe_ref_rent.v' class='invisible'><code>fn <a href='#method.maybe_ref_rent' class='fnname'>maybe_ref_rent</a>&lt;__F, __R:&nbsp;?<a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>&gt;(&amp;self, f: __F) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;</a>__R&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;__F: for&lt;'suffix, 'head&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/function/trait.FnOnce.html" title="trait core::ops::function::FnOnce">FnOnce</a>(&amp;'suffix <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;'head </a>U) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;'suffix </a>__R&gt;,<br>&nbsp;&nbsp;&nbsp;&nbsp;__R: 'static,&nbsp;</span></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/rental/lib.rs.html#229' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Optionally return a shared reference from the shared suffix of the struct.</p>
+
+<p>This is a subtle variation of <code>rent</code> where it is legal to return a reference bounded by a rental lifetime, because that lifetime is reborrowed away before it is returned to you.</p>
+</div><h4 id='method.try_ref_rent' class="method"><span id='try_ref_rent.v' class='invisible'><code>fn <a href='#method.try_ref_rent' class='fnname'>try_ref_rent</a>&lt;__F, __R:&nbsp;?<a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>, __E&gt;(&amp;self, f: __F) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;</a>__R, __E&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;__F: for&lt;'suffix, 'head&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/function/trait.FnOnce.html" title="trait core::ops::function::FnOnce">FnOnce</a>(&amp;'suffix <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;'head </a>U) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;'suffix </a>__R, __E&gt;,<br>&nbsp;&nbsp;&nbsp;&nbsp;__R: 'static,&nbsp;</span></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/rental/lib.rs.html#229' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Try to return a shared reference from the shared suffix of the struct, or an error on failure.</p>
+
+<p>This is a subtle variation of <code>rent</code> where it is legal to return a reference bounded by a rental lifetime, because that lifetime is reborrowed away before it is returned to you.</p>
+</div><h4 id='method.ref_rent_mut' class="method"><span id='ref_rent_mut.v' class='invisible'><code>fn <a href='#method.ref_rent_mut' class='fnname'>ref_rent_mut</a>&lt;__F, __R:&nbsp;?<a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>&gt;(&amp;mut self, f: __F) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;mut </a>__R <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;__F: for&lt;'suffix, 'head&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/function/trait.FnOnce.html" title="trait core::ops::function::FnOnce">FnOnce</a>(&amp;'suffix mut <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;'head </a>U) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;'suffix mut </a>__R,<br>&nbsp;&nbsp;&nbsp;&nbsp;__R: 'static,&nbsp;</span></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/rental/lib.rs.html#229' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Return a mutable reference from the mutable suffix of the struct.</p>
+
+<p>This is a subtle variation of <code>rent_mut</code> where it is legal to return a reference bounded by a rental lifetime, because that lifetime is reborrowed away before it is returned to you.</p>
+</div><h4 id='method.maybe_ref_rent_mut' class="method"><span id='maybe_ref_rent_mut.v' class='invisible'><code>fn <a href='#method.maybe_ref_rent_mut' class='fnname'>maybe_ref_rent_mut</a>&lt;__F, __R:&nbsp;?<a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>&gt;(&amp;mut self, f: __F) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;mut </a>__R&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;__F: for&lt;'suffix, 'head&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/function/trait.FnOnce.html" title="trait core::ops::function::FnOnce">FnOnce</a>(&amp;'suffix mut <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;'head </a>U) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;'suffix mut </a>__R&gt;,<br>&nbsp;&nbsp;&nbsp;&nbsp;__R: 'static,&nbsp;</span></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/rental/lib.rs.html#229' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Optionally return a mutable reference from the mutable suffix of the struct.</p>
+
+<p>This is a subtle variation of <code>rent_mut</code> where it is legal to return a reference bounded by a rental lifetime, because that lifetime is reborrowed away before it is returned to you.</p>
+</div><h4 id='method.try_ref_rent_mut' class="method"><span id='try_ref_rent_mut.v' class='invisible'><code>fn <a href='#method.try_ref_rent_mut' class='fnname'>try_ref_rent_mut</a>&lt;__F, __R:&nbsp;?<a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>, __E&gt;(<br>&nbsp;&nbsp;&nbsp;&nbsp;&amp;mut self, <br>&nbsp;&nbsp;&nbsp;&nbsp;f: __F<br>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;mut </a>__R, __E&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;__F: for&lt;'suffix, 'head&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/function/trait.FnOnce.html" title="trait core::ops::function::FnOnce">FnOnce</a>(&amp;'suffix mut <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;'head </a>U) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;'suffix mut </a>__R, __E&gt;,<br>&nbsp;&nbsp;&nbsp;&nbsp;__R: 'static,&nbsp;</span></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/rental/lib.rs.html#229' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Try to return a mutable reference from the mutable suffix of the struct, or an error on failure.</p>
+
+<p>This is a subtle variation of <code>rent_mut</code> where it is legal to return a reference bounded by a rental lifetime, because that lifetime is reborrowed away before it is returned to you.</p>
+</div><h4 id='method.into_head' class="method"><span id='into_head.v' class='invisible'><code>fn <a href='#method.into_head' class='fnname'>into_head</a>(self) -&gt; <a class="struct" href="https://doc.rust-lang.org/nightly/alloc/boxed/struct.Box.html" title="struct alloc::boxed::Box">Box</a>&lt;T&gt;</code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/rental/lib.rs.html#229' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Drop the rental struct and return the original head value to you.</p>
+</div></div><h3 id='impl-1' class='impl'><span class='in-band'><code>impl&lt;T:&nbsp;'static, U:&nbsp;'static&gt; <a class="struct" href="../../rental/examples/struct.RentRef.html" title="struct rental::examples::RentRef">RentRef</a>&lt;T, U&gt;</code><a href='#impl-1' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/rental/lib.rs.html#229' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.head' class="method"><span id='head.v' class='invisible'><code>fn <a href='#method.head' class='fnname'>head</a>(&amp;self) -&gt; &amp;&lt;<a class="struct" href="https://doc.rust-lang.org/nightly/alloc/boxed/struct.Box.html" title="struct alloc::boxed::Box">Box</a>&lt;T&gt; as <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/deref/trait.Deref.html" title="trait core::ops::deref::Deref">Deref</a>&gt;::<a class="type" href="https://doc.rust-lang.org/nightly/core/ops/deref/trait.Deref.html#associatedtype.Target" title="type core::ops::deref::Deref::Target">Target</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/rental/lib.rs.html#229' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Return a shared reference to the head field of the struct.</p>
+</div><h4 id='method.rent_all' class="method"><span id='rent_all.v' class='invisible'><code>fn <a href='#method.rent_all' class='fnname'>rent_all</a>&lt;__F, __R&gt;(&amp;self, f: __F) -&gt; __R <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;__F: for&lt;'head, 'suffix&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/function/trait.FnOnce.html" title="trait core::ops::function::FnOnce">FnOnce</a>(<a class="struct" href="../../rental/examples/struct.RentRef_Borrow.html" title="struct rental::examples::RentRef_Borrow">RentRef_Borrow</a>&lt;'head, 'suffix, T, U&gt;) -&gt; __R,<br>&nbsp;&nbsp;&nbsp;&nbsp;__R: ,&nbsp;</span></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/rental/lib.rs.html#229' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Execute a closure on shared borrows of the fields of the struct.</p>
+
+<p>The closure may return any value not bounded by one of the special rentail lifetimes of the struct.</p>
+</div><h4 id='method.ref_rent_all' class="method"><span id='ref_rent_all.v' class='invisible'><code>fn <a href='#method.ref_rent_all' class='fnname'>ref_rent_all</a>&lt;__F, __R:&nbsp;?<a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>&gt;(&amp;self, f: __F) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;</a>__R <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;__F: for&lt;'head, 'suffix&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/function/trait.FnOnce.html" title="trait core::ops::function::FnOnce">FnOnce</a>(<a class="struct" href="../../rental/examples/struct.RentRef_Borrow.html" title="struct rental::examples::RentRef_Borrow">RentRef_Borrow</a>&lt;'head, 'suffix, T, U&gt;) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;'suffix </a>__R,<br>&nbsp;&nbsp;&nbsp;&nbsp;__R: 'static,&nbsp;</span></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/rental/lib.rs.html#229' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Return a shared reference from shared borrows of the fields of the struct.</p>
+
+<p>This is a subtle variation of <code>rent_all</code> where it is legal to return a reference bounded by a rental lifetime, because that lifetime is reborrowed away before it is returned to you.</p>
+</div><h4 id='method.maybe_ref_rent_all' class="method"><span id='maybe_ref_rent_all.v' class='invisible'><code>fn <a href='#method.maybe_ref_rent_all' class='fnname'>maybe_ref_rent_all</a>&lt;__F, __R:&nbsp;?<a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>&gt;(&amp;self, f: __F) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;</a>__R&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;__F: for&lt;'head, 'suffix&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/function/trait.FnOnce.html" title="trait core::ops::function::FnOnce">FnOnce</a>(<a class="struct" href="../../rental/examples/struct.RentRef_Borrow.html" title="struct rental::examples::RentRef_Borrow">RentRef_Borrow</a>&lt;'head, 'suffix, T, U&gt;) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;'suffix </a>__R&gt;,<br>&nbsp;&nbsp;&nbsp;&nbsp;__R: 'static,&nbsp;</span></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/rental/lib.rs.html#229' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Optionally return a shared reference from shared borrows of the fields of the struct.</p>
+
+<p>This is a subtle variation of <code>rent_all</code> where it is legal to return a reference bounded by a rental lifetime, because that lifetime is reborrowed away before it is returned to you.</p>
+</div><h4 id='method.try_ref_rent_all' class="method"><span id='try_ref_rent_all.v' class='invisible'><code>fn <a href='#method.try_ref_rent_all' class='fnname'>try_ref_rent_all</a>&lt;__F, __R:&nbsp;?<a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>, __E&gt;(&amp;self, f: __F) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;</a>__R, __E&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;__F: for&lt;'head, 'suffix&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/function/trait.FnOnce.html" title="trait core::ops::function::FnOnce">FnOnce</a>(<a class="struct" href="../../rental/examples/struct.RentRef_Borrow.html" title="struct rental::examples::RentRef_Borrow">RentRef_Borrow</a>&lt;'head, 'suffix, T, U&gt;) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;'suffix </a>__R, __E&gt;,<br>&nbsp;&nbsp;&nbsp;&nbsp;__R: 'static,&nbsp;</span></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/rental/lib.rs.html#229' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Try to return a shared reference from shared borrows of the fields of the struct, or an error on failure.</p>
+
+<p>This is a subtle variation of <code>rent_all</code> where it is legal to return a reference bounded by a rental lifetime, because that lifetime is reborrowed away before it is returned to you.</p>
+</div><h4 id='method.rent_all_mut' class="method"><span id='rent_all_mut.v' class='invisible'><code>fn <a href='#method.rent_all_mut' class='fnname'>rent_all_mut</a>&lt;__F, __R&gt;(&amp;mut self, f: __F) -&gt; __R <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;__F: for&lt;'head, 'suffix&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/function/trait.FnOnce.html" title="trait core::ops::function::FnOnce">FnOnce</a>(<a class="struct" href="../../rental/examples/struct.RentRef_BorrowMut.html" title="struct rental::examples::RentRef_BorrowMut">RentRef_BorrowMut</a>&lt;'head, 'suffix, T, U&gt;) -&gt; __R,<br>&nbsp;&nbsp;&nbsp;&nbsp;__R: ,&nbsp;</span></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/rental/lib.rs.html#229' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Execute a closure on shared borrows of the prefix fields and a mutable borrow of the suffix field of the struct.</p>
+
+<p>The closure may return any value not bounded by one of the special rentail lifetimes of the struct.</p>
+</div><h4 id='method.ref_rent_all_mut' class="method"><span id='ref_rent_all_mut.v' class='invisible'><code>fn <a href='#method.ref_rent_all_mut' class='fnname'>ref_rent_all_mut</a>&lt;__F, __R:&nbsp;?<a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>&gt;(&amp;mut self, f: __F) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;mut </a>__R <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;__F: for&lt;'head, 'suffix&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/function/trait.FnOnce.html" title="trait core::ops::function::FnOnce">FnOnce</a>(<a class="struct" href="../../rental/examples/struct.RentRef_BorrowMut.html" title="struct rental::examples::RentRef_BorrowMut">RentRef_BorrowMut</a>&lt;'head, 'suffix, T, U&gt;) -&gt; <a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;'suffix mut </a>__R,<br>&nbsp;&nbsp;&nbsp;&nbsp;__R: 'static,&nbsp;</span></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/rental/lib.rs.html#229' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Return a mutable reference from shared borrows of the prefix fields and a mutable borrow of the suffix field of the struct.</p>
+
+<p>This is a subtle variation of <code>rent_all_mut</code> where it is legal to return a reference bounded by a rental lifetime, because that lifetime is reborrowed away before it is returned to you.</p>
+</div><h4 id='method.maybe_ref_rent_all_mut' class="method"><span id='maybe_ref_rent_all_mut.v' class='invisible'><code>fn <a href='#method.maybe_ref_rent_all_mut' class='fnname'>maybe_ref_rent_all_mut</a>&lt;__F, __R:&nbsp;?<a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>&gt;(<br>&nbsp;&nbsp;&nbsp;&nbsp;&amp;mut self, <br>&nbsp;&nbsp;&nbsp;&nbsp;f: __F<br>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;mut </a>__R&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;__F: for&lt;'head, 'suffix&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/function/trait.FnOnce.html" title="trait core::ops::function::FnOnce">FnOnce</a>(<a class="struct" href="../../rental/examples/struct.RentRef_BorrowMut.html" title="struct rental::examples::RentRef_BorrowMut">RentRef_BorrowMut</a>&lt;'head, 'suffix, T, U&gt;) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;'suffix mut </a>__R&gt;,<br>&nbsp;&nbsp;&nbsp;&nbsp;__R: 'static,&nbsp;</span></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/rental/lib.rs.html#229' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Optionally return a mutable reference from shared borrows of the prefix fields and a mutable borrow of the suffix field of the struct.</p>
+
+<p>This is a subtle variation of <code>rent_all_mut</code> where it is legal to return a reference bounded by a rental lifetime, because that lifetime is reborrowed away before it is returned to you.</p>
+</div><h4 id='method.try_ref_rent_all_mut' class="method"><span id='try_ref_rent_all_mut.v' class='invisible'><code>fn <a href='#method.try_ref_rent_all_mut' class='fnname'>try_ref_rent_all_mut</a>&lt;__F, __R:&nbsp;?<a class="trait" href="https://doc.rust-lang.org/nightly/core/marker/trait.Sized.html" title="trait core::marker::Sized">Sized</a>, __E&gt;(<br>&nbsp;&nbsp;&nbsp;&nbsp;&amp;mut self, <br>&nbsp;&nbsp;&nbsp;&nbsp;f: __F<br>) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;mut </a>__R, __E&gt; <span class="where fmt-newline">where<br>&nbsp;&nbsp;&nbsp;&nbsp;__F: for&lt;'head, 'suffix&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/function/trait.FnOnce.html" title="trait core::ops::function::FnOnce">FnOnce</a>(<a class="struct" href="../../rental/examples/struct.RentRef_BorrowMut.html" title="struct rental::examples::RentRef_BorrowMut">RentRef_BorrowMut</a>&lt;'head, 'suffix, T, U&gt;) -&gt; <a class="enum" href="https://doc.rust-lang.org/nightly/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;'suffix mut </a>__R, __E&gt;,<br>&nbsp;&nbsp;&nbsp;&nbsp;__R: 'static,&nbsp;</span></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/rental/lib.rs.html#229' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Try to return a mutable reference from shared borrows of the prefix fields and a mutable borrow of the suffix field of the struct, or an error on failure.</p>
+
+<p>This is a subtle variation of <code>rent_all_mut</code> where it is legal to return a reference bounded by a rental lifetime, because that lifetime is reborrowed away before it is returned to you.</p>
+</div></div>
+            <h2 id='implementations' class='small-section-header'>
+              Trait Implementations<a href='#implementations' class='anchor'></a>
+            </h2>
+        <h3 id='impl-Deref' class='impl'><span class='in-band'><code>impl&lt;T:&nbsp;'static, U:&nbsp;'static&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/deref/trait.Deref.html" title="trait core::ops::deref::Deref">Deref</a> for <a class="struct" href="../../rental/examples/struct.RentRef.html" title="struct rental::examples::RentRef">RentRef</a>&lt;T, U&gt;</code><a href='#impl-Deref' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/rental/lib.rs.html#229' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='associatedtype.Target' class="type"><span id='Target.t' class='invisible'><code>type <a href='https://doc.rust-lang.org/nightly/core/ops/deref/trait.Deref.html#associatedtype.Target' class="type">Target</a> = &lt;<a class="primitive" href="https://doc.rust-lang.org/nightly/std/primitive.reference.html">&amp;'static </a>U as <a class="trait" href="https://doc.rust-lang.org/nightly/core/ops/deref/trait.Deref.html" title="trait core::ops::deref::Deref">Deref</a>&gt;::<a class="type" href="https://doc.rust-lang.org/nightly/core/ops/deref/trait.Deref.html#associatedtype.Target" title="type core::ops::deref::Deref::Target">Target</a></code></span></h4>
+<div class='docblock'><p>The resulting type after dereferencing.</p>
+</div><h4 id='method.deref' class="method"><span id='deref.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/ops/deref/trait.Deref.html#tymethod.deref' class='fnname'>deref</a>(&amp;self) -&gt; &amp;Self::<a class="type" href="https://doc.rust-lang.org/nightly/core/ops/deref/trait.Deref.html#associatedtype.Target" title="type core::ops::deref::Deref::Target">Target</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/rental/lib.rs.html#229' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Dereferences the value.</p>
+</div></div><h3 id='impl-AsRef&lt;Self::Target&gt;' class='impl'><span class='in-band'><code>impl&lt;T:&nbsp;'static, U:&nbsp;'static&gt; <a class="trait" href="https://doc.rust-lang.org/nightly/core/convert/trait.AsRef.html" title="trait core::convert::AsRef">AsRef</a>&lt;Self::<a class="type" href="https://doc.rust-lang.org/nightly/core/ops/deref/trait.Deref.html#associatedtype.Target" title="type core::ops::deref::Deref::Target">Target</a>&gt; for <a class="struct" href="../../rental/examples/struct.RentRef.html" title="struct rental::examples::RentRef">RentRef</a>&lt;T, U&gt;</code><a href='#impl-AsRef&lt;Self::Target&gt;' class='anchor'></a></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/rental/lib.rs.html#229' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.as_ref' class="method"><span id='as_ref.v' class='invisible'><code>fn <a href='https://doc.rust-lang.org/nightly/core/convert/trait.AsRef.html#tymethod.as_ref' class='fnname'>as_ref</a>(&amp;self) -&gt; &amp;Self::<a class="type" href="https://doc.rust-lang.org/nightly/core/ops/deref/trait.Deref.html#associatedtype.Target" title="type core::ops::deref::Deref::Target">Target</a></code></span><span class='out-of-band'><div class='ghost'></div><a class='srclink' href='../../src/rental/lib.rs.html#229' title='goto source code'>[src]</a></span></h4>
+<div class='docblock'><p>Performs the conversion.</p>
+</div></div></section>
+    <section id='search' class="content hidden"></section>
+
+    <section class="footer"></section>
+
+    <aside id="help" class="hidden">
+        <div>
+            <h1 class="hidden">Help</h1>
+
+            <div class="shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+
+                <dl>
+                    <dt>?</dt>
+                    <dd>Show this help dialog</dd>
+                    <dt>S</dt>
+                    <dd>Focus the search field</dd>
+                    <dt>&larrb;</dt>
+                    <dd>Move up in search results</dd>
+                    <dt>&rarrb;</dt>
+                    <dd>Move down in search results</dd>
+                    <dt>&#9166;</dt>
+                    <dd>Go to active search result</dd>
+                    <dt>+</dt>
+                    <dd>Collapse/expand all sections</dd>
+                </dl>
+            </div>
+
+            <div class="infos">
+                <h2>Search Tricks</h2>
+
+                <p>
+                    Prefix searches with a type followed by a colon (e.g.
+                    <code>fn:</code>) to restrict the search to a given type.
+                </p>
+
+                <p>
+                    Accepted types are: <code>fn</code>, <code>mod</code>,
+                    <code>struct</code>, <code>enum</code>,
+                    <code>trait</code>, <code>type</code>, <code>macro</code>,
+                    and <code>const</code>.
+                </p>
+
+                <p>
+                    Search functions by type signature (e.g.
+                    <code>vec -> usize</code> or <code>* -> vec</code>)
+                </p>
+            </div>
+        </div>
+    </aside>
+
+    
+
+    <script>
+        window.rootPath = "../../";
+        window.currentCrate = "rental";
+    </script>
+    <script src="../../main.js"></script>
+    <script defer src="../../search-index.js"></script>
+</body>
+</html>

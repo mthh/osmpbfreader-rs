@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["dense_nodes",""],["iter",""],["nodes",""],["relations",""],["simple_nodes",""],["ways",""]],"struct":[["DenseNodes",""],["Nodes","Iterator on the `Node` of a `PrimitiveGroup`."],["OsmObjs","Iterator on the `OsmObj` of a `PrimitiveGroup`."],["Relations",""],["SimpleNodes",""],["Ways",""]]});

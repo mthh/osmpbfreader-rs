@@ -1,0 +1,1 @@
+initSidebarItems({"macro":[["pub_iterator_type","Abstract behind a tuple struct an iterator.  Usefull to privatize implementation details about the implementation of the iterator. The syntax is done to be as if you write a type definition."]]});

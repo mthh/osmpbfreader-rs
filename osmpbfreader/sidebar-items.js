@@ -1,0 +1,1 @@
+initSidebarItems({"mod":[["blobs","Iterator and utilities for `fileformat::Blob`."],["blocks","Iterators of OpenStreetMap objects from a block."],["error",""],["fileformat","Generated from protobuf."],["groups",""],["objects","This module proposes objects to modelize OpenStreetMap objects."],["osmformat","Generated from protobuf."],["reader","Tools for reading a pbf file."]]});

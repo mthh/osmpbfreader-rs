@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["Relation_MemberType",""]],"struct":[["ChangeSet",""],["DenseInfo",""],["DenseNodes",""],["HeaderBBox",""],["HeaderBlock",""],["Info",""],["Node",""],["PrimitiveBlock",""],["PrimitiveGroup",""],["Relation",""],["StringTable",""],["Way",""]]});
