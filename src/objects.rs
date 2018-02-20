@@ -180,6 +180,12 @@ pub struct Node {
     pub decimicro_lat: i32,
     /// The longitude in decimicro degrees (10⁻⁷ degrees).
     pub decimicro_lon: i32,
+    /// The timestamp in milliseconds since January 1, 1970.
+    pub timestamp: i64,
+    /// The version number of the node.
+    pub version: i32,
+    /// The current visibility of the object.
+    pub visible: bool,
 }
 impl Node {
     /// Returns the latitude of the node in degrees.
@@ -203,6 +209,12 @@ pub struct Way {
     pub tags: Tags,
     /// The ordered list of nodes as id.
     pub nodes: Vec<NodeId>,
+    /// The timestamp in milliseconds since January 1, 1970.
+    pub timestamp: i64,
+    /// The version number of the node.
+    pub version: i32,
+    /// The current visibility of the object.
+    pub visible: bool,
 }
 impl Way {
     /// Returns true if the way is
@@ -237,6 +249,12 @@ pub struct Relation {
     pub tags: Tags,
     /// Members of the relation.
     pub refs: Vec<Ref>,
+    /// The timestamp in milliseconds since January 1, 1970.
+    pub timestamp: i64,
+    /// The version number of the node.
+    pub version: i32,
+    /// The current visibility of the object.
+    pub visible: bool,
 }
 
 impl ::std::convert::From<NodeId> for OsmId {

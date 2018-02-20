@@ -52,11 +52,15 @@ impl<'a> Iterator for SimpleNodes<'a> {
     type Item = Node;
     fn next(&mut self) -> Option<Node> {
         self.iter.next().map(|n| {
+            let info = n.get_info();
             Node {
                 id: NodeId(n.get_id()),
                 decimicro_lat: make_lat(n.get_lat(), self.block),
                 decimicro_lon: make_lon(n.get_lon(), self.block),
                 tags: make_tags(n.get_keys(), n.get_vals(), self.block),
+                timestamp: info.get_timestamp(),
+                version: info.get_version(),
+                visible: info.get_visible(),
             }
         })
     }
@@ -67,12 +71,17 @@ impl<'a> Iterator for SimpleNodes<'a> {
 
 pub fn dense_nodes<'a>(group: &'a PrimitiveGroup, block: &'a PrimitiveBlock) -> DenseNodes<'a> {
     let dense = group.get_dense();
+    let info = dense.get_denseinfo();
     DenseNodes {
         block: block,
         dids: dense.get_id().iter(),
         dlats: dense.get_lat().iter(),
         dlons: dense.get_lon().iter(),
         keys_vals: dense.get_keys_vals().iter(),
+        timestamps: info.get_timestamp().iter(),
+        versions: info.get_version().iter(),
+        visibles: info.get_visible().iter(),
+        cur_timestamp: 0,
         cur_id: 0,
         cur_lat: 0,
         cur_lon: 0,
@@ -84,18 +93,23 @@ pub struct DenseNodes<'a> {
     dlats: slice::Iter<'a, i64>,
     dlons: slice::Iter<'a, i64>,
     keys_vals: slice::Iter<'a, i32>,
+    timestamps: slice::Iter<'a, i64>,
+    versions: slice::Iter<'a, i32>,
+    visibles: slice::Iter<'a, bool>,
     cur_id: i64,
     cur_lat: i64,
     cur_lon: i64,
+    cur_timestamp: i64,
 }
 impl<'a> Iterator for DenseNodes<'a> {
     type Item = Node;
     fn next(&mut self) -> Option<Node> {
-        match (self.dids.next(), self.dlats.next(), self.dlons.next()) {
-            (Some(&did), Some(&dlat), Some(&dlon)) => {
+        match (self.dids.next(), self.dlats.next(), self.dlons.next(), self.timestamps.next()) {
+            (Some(&did), Some(&dlat), Some(&dlon), Some(&t)) => {
                 self.cur_id += did;
                 self.cur_lat += dlat;
                 self.cur_lon += dlon;
+                self.cur_timestamp += t;
             }
             _ => return None,
         }
@@ -112,11 +126,15 @@ impl<'a> Iterator for DenseNodes<'a> {
             tags.insert(k, v);
         }
         tags.shrink_to_fit();
+        let (ver, vis) = (self.versions.next(), self.visibles.next());
         Some(Node {
             id: NodeId(self.cur_id),
             decimicro_lat: make_lat(self.cur_lat, self.block),
             decimicro_lon: make_lon(self.cur_lon, self.block),
             tags: tags,
+            timestamp: make_timestamp(self.cur_timestamp, self.block),
+            version: *ver.unwrap(),
+            visible: *vis.unwrap(),
         })
     }
 }
@@ -143,10 +161,14 @@ impl<'a> Iterator for Ways<'a> {
                     NodeId(n)
                 })
                 .collect();
+            let info = w.get_info();
             Way {
                 id: WayId(w.get_id()),
                 nodes: nodes,
                 tags: make_tags(w.get_keys(), w.get_vals(), self.block),
+                timestamp: make_timestamp(info.get_timestamp(), self.block),
+                version: info.get_version(),
+                visible: info.get_visible(),
             }
         })
     }
@@ -187,10 +209,14 @@ impl<'a> Iterator for Relations<'a> {
                     }
                 })
                 .collect();
+            let info = rel.get_info();
             Relation {
                 id: RelationId(rel.get_id()),
                 refs: refs,
                 tags: make_tags(rel.get_keys(), rel.get_vals(), self.block),
+                timestamp: make_timestamp(info.get_timestamp(), self.block),
+                version: info.get_version(),
+                visible: info.get_visible(),
             }
         })
     }
@@ -217,4 +243,8 @@ fn make_tags(keys: &[u32], vals: &[u32], b: &PrimitiveBlock) -> Tags {
         .collect();
     tags.shrink_to_fit();
     tags
+}
+fn make_timestamp(t: i64, b: &osmformat::PrimitiveBlock) -> i64 {
+    let a = b.get_date_granularity();
+    a as i64 * t
 }
